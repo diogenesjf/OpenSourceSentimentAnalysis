@@ -1,0 +1,19 @@
+Absolutely, I would love to have more contributors. Currently the algorithm is fairly basic, but has had good results. The high level idea is that a number of axes are specified for different contexts. Currently the two contexts are emotional and political, but extension to others shouldn't be a problem. The contexts are defined at the top of the Training file.
+
+Currently the data is stored in a crude file format that was chosen largely due to a supreme ease in using simple regex for parsing defined within the Word and WordPair. Currently this just works through a text file stored in the directory of the project (Shown in languageDump.txt).
+
+When a dictionary is originally formed it pulls out all novel words and wordpairs (wordpairs are two words next to each other) and assigns a values, which is essentially a vector in the original nspace specified through the axes specified for the different contexts. (For example: right now each word and wordpair has a political vector specified in 2-space where one axis is liberal and the other is conservative.)
+
+In order to act as a catalyst for change and shake the model out of steady state a certain amount of noise is added to the system. The weighting for each axis is initialized as equal between all directions with the total being 100, then noise is added (the noise I believe is currently a hard coded value based on intuition, no optimization was done around the noise level, and I suspect there is optimization to be done there) and a corpus is given in the training data set.
+
+Right now the corpus is expected to be largely plain text, and discards capitalization I believe (which would probably give better accuracy) there could definitely be some better regex around this parsing and more consideration around which word forms to consider equivalent. Current there is no lemmitization or stemming happening at this stage and I am using very few stop words. I haven't investigated what effect stemming or lemmitization would have there, but since one of the major draws is currently efficiency, lemmitization might be too compute-cost intensive.
+
+When the text is passed to the training object, the program steps though every sentence and makes the presumption that the sentence should contain the sentiment generally given to the corpus. The sentiment of a sentence is found by summing the word and wordpair vectors present in the sentence. If the desired sentiment does not result, then the smallest possible change is made to every word and wordpair in the sentence in order to cause the desired sentiment to prevail over the incorrect sentiment. This model currently assumes that any error is half due to not being strongly linked enough to the correct sentiment, and half to do with being too strongly linked with every other sentiment in the context, and adjusts accordingly.
+
+A big potential for improvement here I think is changing how much each vector is adjusted to be inversely proportional to how often it is adjusted (if the "well" word vector frequently changes directions by large amounts, it's probably a weaker predictor than a word that has largely stayed pointed in one direction) just an idea, but I'm certain it would help the model reach a steady state rather than it's current non-determinism.
+
+The scoring is currently done by seeing along which vector the score is the greatest, however the actually classification is fuzzier than this and the potential for fuzzy classification is there.
+
+I hope that helped, I would be thrilled to have people take up this project. I've been meaning to get back to it, but school has sadly been getting in the way. Also sorry that the code is in the state it's in, this was made at a hackathon.
+
+Let me know if you have any more questions or want to keep up to date or anything. The best way to contact me is probably at slater.r.victoroff@gmail.com. Thanks again for you interest in this project, I'll add you as a collaborator.
